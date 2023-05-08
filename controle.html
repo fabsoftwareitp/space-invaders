@@ -1,45 +1,115 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Controle - Space Invaders</title>
-    <link rel="stylesheet" href="http://localhost:9091/style.css">
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        .hide {
+            display: none;
+        }
+
+    </style>
 </head>
 <body>
-    <div>
-        <button id="shoot1" class="shoot1">
-            <span><ion-icon name="locate-outline"></ion-icon></span>
-            <!--<img class="mira" src="http://localhost:9091/mira.png" alt="mira">-->
+    <div class="bla">
+        Vire o smartphone para jogar!
+    </div>
+    <div class="controls hide">
+        <button class="shoot1 shoot">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mira" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M256 96V56M256 456v-40"/><path d="M256 112a144 144 0 10144 144 144 144 0 00-144-144z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M416 256h40M56 256h40"/></svg>
         </button>
+        <div class="iconDiv">
+            <img class="iconIf" src="https://localhost:9091/If.png">
+            <img class="iconFab" src="https://localhost:9091/Fab.png">    
+        </div>
         <!--<img class="cel" src="https://localhost:9091/celular.gif">-->
-        <button id="shoot1" class="shoot2">
-            <span><ion-icon name="locate-outline"></ion-icon></span>
-            <!--<img class="mira" src="http://localhost:9091/mira.png" alt="mira">-->
+        <button class="shoot2 shoot">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mira" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M256 96V56M256 456v-40"/><path d="M256 112a144 144 0 10144 144 144 144 0 00-144-144z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M416 256h40M56 256h40"/></svg>
         </button>
     </div>
     <!--<p id="vire">Vire seu dispositivo!</p>
     <p id="mexa">Mexa seu dispositivo!</p>-->
     <script src="/socket.io/socket.io.js"></script>
     <script>
+
+        if(window.navigator.userAgent.includes("GT-N8000")) {
+            console.log("tablet");
+        }
+        
+
         var socket = io();
         
         var beta = 0;
 
+        // browsers require full screen mode in order to obtain the orientation lock
+        var goFullScreen = null;
+        var exitFullScreen = null;
+        if ('requestFullscreen' in document.documentElement) {
+            goFullScreen = 'requestFullscreen';
+            exitFullScreen = 'exitFullscreen';
+        } else if ('mozRequestFullScreen' in document.documentElement) {
+            goFullScreen = 'mozRequestFullScreen';
+            exitFullScreen = 'mozCancelFullScreen';
+        } else if ('webkitRequestFullscreen' in document.documentElement) {
+            goFullScreen = 'webkitRequestFullscreen';
+            exitFullScreen = 'webkitExitFullscreen';
+        } else if ('msRequestFullscreen') {
+            goFullScreen = 'msRequestFullscreen';
+            exitFullScreen = 'msExitFullscreen';
+        }
+
+        window.alert('Por favor, gire seu dispositivo (celular deitado)');
+        console.log(window.screen);
+
+        window.screen.orientation.addEventListener('change', function(e) {
+            const orientation = e.currentTarget.type;
+            console.log(orientation);
+            if(orientation == "landscape-primary" || orientation == "landscape-secondary") {
+                document.documentElement[goFullScreen] && document.documentElement[goFullScreen](); 
+                window.screen.orientation.lock(orientation);
+                document.querySelector(".controls").classList.toggle("hide");
+                document.querySelector(".bla").classList.toggle("hide");
+            }
+        });
+
+        document.addEventListener("fullscreenchange", function(e) {
+            if(document.fullscreenElement) {
+                console.log("full");
+            }else {
+                console.log("vire o celular");
+                document.querySelector(".controls").classList.toggle("hide");
+                document.querySelector(".bla").classList.toggle("hide");
+            }
+        });
+
+        if (window.screen.orientation.type === "landscape-primary" || window.screen.orientation.type === "landscape-secondary"){
+            window.screen.orientation.lock(window.screen.orientation.type);
+        }
+
         window.addEventListener('deviceorientation', (e) => {
-            beta = e.beta;
-            socket.emit('beta', beta);
+            let value = 0;
+            if(window.navigator.userAgent.includes("GT-N8000")) {
+                value = e.gamma * 2;
+            } else {
+                value = e.beta;
+            }
+            socket.emit('beta', value);
         });
 
-        var shoot1 = document.getElementById('shoot1');
+        var btns = document.querySelectorAll('.shoot');
 
-        shoot1.addEventListener('touchstart', () => {
-            socket.emit('tiro', true);
+        btns.forEach(function (e) {
+            e.addEventListener('touchstart', () => {
+                socket.emit('tiro', true);
+            });
+            e.addEventListener('touchend', () => {
+                socket.emit('tiro', false);
+            });
         });
-        shoot1.addEventListener('touchend', () => {
-            socket.emit('tiro', false);
-        });
+       
 
         //função para indicar pro usuario virar o celular
         /*window.addEventListener("deviceorientation", function(event) {

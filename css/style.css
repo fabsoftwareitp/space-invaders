@@ -15,22 +15,21 @@ body{
 div{
     width:100%;
     height:100%;
-    padding:20px;
+    padding:15px;
     display:flex;
     flex-direction:row;
-    justify-content:space-between;
 }
 
 button{
-    width:30%;
+    width:40%;
 }
 button:active{
     background-color:black;
 }
 
-span{
+.mira{
     color:#f0f0f0;
-    font-size:80px;
+    width: 60%;
 }
 
 .shoot1{
@@ -42,4 +41,19 @@ span{
     border-top-right-radius:20px;
     border-bottom-right-radius:20px;
     background-color:#272727;
+}
+
+.iconDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.iconIf {
+    width: 40%;
+}
+
+.iconFab {
+    width: 26%;
 }

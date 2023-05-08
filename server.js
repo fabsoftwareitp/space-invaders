@@ -1,13 +1,13 @@
 const express = require('express');
 const fs = require('fs')
 const app = express();
-const http = require('http');
-const server = http.createServer(app);
+const http = require('https');
+//const server = http.createServer(app);
 
-/*const server = http.createServer({
-   key: fs.readFileSync('C:/laragon/etc/ssl/laragon.key'),
-   cert: fs.readFileSync('C:/laragon/etc/ssl/laragon.crt')
-}, app);*/ 
+const server = http.createServer({
+   key: fs.readFileSync('config/cert.key'),
+   cert: fs.readFileSync('config/cert.crt')
+}, app);
 
 const { Server } = require("socket.io");
 const io = new Server(server);
