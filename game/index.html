@@ -13,12 +13,7 @@
   </head>
   <body>
     <img src="./images/fabsoft-icon.svg" alt="logo da fábrica de software" class="logo">
-    <h1>Space Invaders</h1>
-
-    <div id="containers-avisos">
-      <img src="images/Bichinho computerdevice.png" class="hidden aviso" alt="Bichinho exibido em um dispostivo não móvel" width="100px">
-      <h1 class="hidden aviso">Acesse o jogo no celular</h1>
-    </div>
+    <h1 class="header">Space Invaders</h1>
 
     <div class="container" id="form">
       <p>Informe um Nome</p>
@@ -41,8 +36,14 @@
     </ul>
     </div>
 
-      <img src="images/Rodape.png" alt="Logo Fábrica de Software" id="Rodape">
+      <img src="images/Rodape.png" alt="Logo Fábrica de Software" class="Rodape">
     <canvas id="game"></canvas>
+    
+    <div class="GameOverButtons">
+      <button id="PlayAgainButton">Jogar Novamente</button>
+      <button id="RankingButton">Ver Ranking</button>
+    </div>
+    
     <script src="ranking.js"></script>
     <script type="module" src="index.js"></script>
   </body>

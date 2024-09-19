@@ -55,8 +55,9 @@ input {
 }
 
 canvas {
+  display: block;
   width: 100vw;
-  height: 100vh;
+  height: 90vh;
 }
 
 li {
@@ -88,8 +89,25 @@ button {
   display: none;
 }
 
-#containers-avisos {
+.GameOverButtons {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: space-between;
+}
+
+#PlayAgainButton {
+  width: 255px;
+  height: 50px;
+  border-radius: 0px;
+  font-size: 16px;
+  color: black;
+  background-color: white;
+}
+
+#RankingButton {
+  width: 250px;
+  height: 50px;
+  border-radius: 0px;
+  font-size: 16px;
+  color: black;
+  background-color: white;
 }

@@ -7,9 +7,7 @@ fetch(`${host}/ranking`)
 
 async function createRankingList(rankingJson) {
   let aux = 0;
-  console.log(rankingJson);
   rankingJson.sort(function(a, b){return b.score - a.score});
-  console.log(rankingJson);
   await rankingJson.forEach(player => {
     const item = createPlayerElement(player);
     rankingList.appendChild(item);

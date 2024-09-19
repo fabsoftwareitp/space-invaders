@@ -18,10 +18,13 @@ const option1Button = document.getElementById("option1");
 const option2Button = document.getElementById("option2");
 const aviso = document.querySelectorAll('.aviso');
 const containers = document.querySelectorAll('.container');
+const rodape = document.querySelector('.Rodape');
+const logo = document.querySelector('.logo');
+const header = document.querySelector('.header');
 const host = window.location.origin;
 
-canvas.width = screen.height;
-canvas.height = screen.width;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
 const background = new Image();
 background.src = "images/space.png";
@@ -163,6 +166,16 @@ function toggleMODOIFSP() {
   }
 }
 
+function allHidden() {
+  containers.forEach(container => {
+    container.classList.add("hidden");
+  });
+  rodape.classList.add("hidden");
+  logo.classList.add("hidden");
+  header.classList.add("hidden");
+}
+
+
 closeOptionsButton.addEventListener('click', () => {
   hideOptionsMenu();
 });
@@ -179,48 +192,29 @@ option2Button.addEventListener('click', () => {
   toggleMODOIFSP();
 });
 
-start.addEventListener('click', () => {
+start.addEventListener('click', async () => {
+  let nameRepeat = false;
+  const res = await fetch(`${host}/ranking`);
+  const resJson = await res.json();
+
+  if (resJson.find((player) => player.name == userNameInput.value)) {
+    nameRepeat = true;
+  }
+  
   if (userNameInput.value === '') {
     alert('Insira um nome');
   } else if (userNameInput.value.length > 5) {
     alert('O nome só pode ter até 5 caracteres');
+  } else if (nameRepeat) {
+    window.alert("esse nome já existe");
   } else {
-    user = new User(userNameInput.value);
+    user.setName(userNameInput.value);
     resetGame();
     game();
-    canvas.requestFullscreen();
+    document.body.requestFullscreen();
+    allHidden();
   }
 });
-
-screen.orientation.addEventListener("change", async () => {
-  let nameRepeat = false;
-  const res = await fetch(`${host}/ranking`);
-  const resJson = await res.json();
-  console.log(resJson);
-
-  if (resJson.find((player) => player.name === userNameInput.value)) {
-    nameRepeat = true;
-  }
-});
-
-function isMobileDevice() {
-  return/Mobi|Android|iPhone|iPad|iPod/.test(navigator.userAgent);
-}
-
-window.onload = function() {
-
-  if (!isMobileDevice()) {
-    alert("Este jogo é otimizado para dispositivos móveis. Por favor, acesse em um celular.");
-
-    containers.forEach(container => {
-      container.classList.add("hidden");
-    });
-
-    aviso.forEach(aviso => {
-      aviso.classList.remove("hidden");
-  });
-}
-};
 
 document.addEventListener("click", (e) => {
   if (playAgainButton.isClicked(e) && isGameOver) {
