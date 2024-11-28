@@ -1,16 +1,19 @@
-const rankingList = document.querySelector("#rankingList");
-const host = window.location.origin
+const host = "https://ranking.fabsoftware.itp.ifsp.edu.br/ranking/space";
+let rankingData = null;
 
-fetch(`${host}/ranking`)
-  .then(res => res.json())
-  .then(res =>  createRankingList(res));
+async function getRanking() {
+  await fetch(`${host}`)
+    .then(res => res.json())
+    .then(res => createRankingList(res));
+}
 
-async function createRankingList(rankingJson) {
-  let aux = 0;
-  console.log(rankingJson);
-  rankingJson.sort(function(a, b){return b.score - a.score});
-  console.log(rankingJson);
-  await rankingJson.forEach(player => {
+function createRankingList(rankingJson) {
+  rankingData = rankingJson;
+  const rankingList = document.querySelector(".rankingList");
+  rankingList.innerHTML = null;
+  rankingJson.sort(function(a, b) { return b.score - a.score });
+  const top10Players = rankingJson.slice(0, 10);
+  top10Players.forEach(player => {
     const item = createPlayerElement(player);
     rankingList.appendChild(item);
   });
@@ -21,3 +24,5 @@ function createPlayerElement(player) {
   element.innerHTML = `<span>${player.name}</span>: <span class="player-score">${player.score}</span>`;
   return element;
 }
+
+getRanking();

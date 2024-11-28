@@ -41,14 +41,23 @@ export default class EnemyController {
   currentDirection = MovingDirection.right;
   xVelocity = 0;
   yVelocity = 0;
-  defaultXVelocity = 1;
-  defaultYVelocity = 1;
+  defaultXVelocity = 0.5;
+  defaultYVelocity = 0.5;
   moveDownTimerDefault = 30;
   moveDownTimer = this.moveDownTimerDefault;
   fireBulletTimerDefault = 100;
   fireBulletTimer = this.fireBulletTimerDefault;
 
+  isMobileDevice() {
+    return /Mobi|Android|iPhone|iPad|iPod/.test(navigator.userAgent);
+  }
+
   constructor(canvas, enemyBulletController, playerBulletController, score, soundEnabled) {
+    if (!this.isMobileDevice()) {
+      this.defaultXVelocity = 2;
+      this.defaultYVelocity = 2;
+    }
+    
     this.canvas = canvas;
     this.enemyBulletController = enemyBulletController;
     this.playerBulletController = playerBulletController;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -12,36 +12,44 @@
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   </head>
   <body>
-    <img src="./images/fabsoft-icon.svg" alt="logo da fábrica de software" class="logo">
-    <h1 class="header">Space Invaders</h1>
+    <div class="paginaInicial">
+        <img src="./images/logoSpace.png" alt="logo da fábrica de software" class="logo">
+        <h1 class="header">Space Invaders</h1>
 
-    <div class="container" id="form">
-      <p>Informe um Nome</p>
-      <input type="text" id="name" placeholder="Nome">
-      <p>Vire o celular para iniciar</p>
-      <button id="start">Jogar</button>
-      <button id="options">Opções</button>
+        <div class="container" id="form">
+          <p>Informe um Nome</p>
+          <input type="text" id="name" placeholder="Nome">
+          <p id="error-msg">O nome já existe, insira um novo</p>
+          <p>Vire o celular para iniciar</p>
+          <button id="start">Jogar</button>
+          <button id="options">Opções</button>
+        </div>
+
+        <div id="optionsMenu" class="hidden">
+          <h3>Opções</h3>
+          <button id="option1">Desativar áudio</button>
+          <button id="option2">MODO IFSP</button>
+          <button id="closeOptions">Fechar</button>
+        </div>
+
+        <div id="ranking">
+          <ul class="rankingList container">
+            <h2>Ranking:</h2>
+          </ul>
+        </div>
+
+        <footer>
+          <h4 class="rodape1">Desenvolvido por</h4>
+          <h4 class="rodape2">Fábrica de Software</h4>
+          <img class="rodape3" src="images/logo-transparente.webp" alt="">
+        </footer>
     </div>
-
-    <div id="optionsMenu" class="hidden">
-      <h3>Opções</h3>
-      <button id="option1">Desativar áudio</button>
-      <button id="option2">MODO IFSP</button>
-      <button id="closeOptions">Fechar</button>
-    </div>
-
-    <div id="ranking">
-    <ul id="rankingList" class="container">
-      <h2>Ranking:</h2>
-    </ul>
-    </div>
-
-      <img src="images/Rodape.png" alt="Logo Fábrica de Software" class="Rodape">
-    <canvas id="game"></canvas>
+    <canvas id="game" class="hidden"></canvas>
     
-    <div class="GameOverButtons">
-      <button id="PlayAgainButton" class="hidden">Jogar Novamente</button>
-      <button id="RankingButton" class="hidden">Ver Ranking</button>
+    <h1 id="textGameOver" class="hidden">Você Perdeu</h1>
+    <div class="gameOverButtons">
+        <button id="playAgainButton" class="hidden">Jogar Novamente</button>
+        <a href="ranking.html"><button id="rankingButton" class="hidden">Ver Ranking</button></a>
     </div>
     
     <script src="ranking.js"></script>
